@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 
 from .models import Person
-from .forms import PersonForm
+from .forms import CreatePersonForm, UpdatePersonForm
 
 # Create your views here.
 
@@ -44,7 +44,7 @@ def get_person(request, person_id):
 def create_person(request):
 
     if request.method == 'POST':
-        form = PersonForm(request.POST)
+        form = CreatePersonForm(request.POST)
         ret_resp = {}
         
         if form.is_valid():
@@ -63,7 +63,35 @@ def create_person(request):
             return JsonResponse(ret_resp)
 
     else:
-        form = PersonForm()
+        form = CreatePersonForm()
     return render(request, 'person_form.html', {'form': form})
+
+# Create a new person
+def update_person(request, person_id):
+
+    if request.method == 'PUT':
+        form = UpdatePersonForm(request)
+        ret_resp = {}
+
+        if form.is_valid():
+        
+            f_name = form.cleaned_data['first_name']
+            l_name = form.cleaned_data['last_name']
+            e_address = form.cleaned_data['email_address']
+            
+            person = Person.get(id=person_id)
+            if f_name:
+                person.first_name = f_name
+            if l_name:
+                person.last_name = l_name
+            if e_address:
+                person.email_address = e_address
+            person.save()
+
+            return redirect('../', person_id=person_id)
+
+    else:
+        form = UpdatePersonForm()
+    return render(request, 'update_person_form.html', {'form': form, 'person_id': person_id})
 
    
