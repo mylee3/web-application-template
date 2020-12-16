@@ -1,0 +1,20 @@
+[
+    {
+      "model": "apiperson.person",
+      "pk": 1,
+      "fields": {
+        "first_name": "John",
+        "last_name": "Lennon",
+        "email_address": "john_lennon@yahoo.com"
+      }
+    },
+    {
+      "model": "apiperson.person",
+      "pk": 2,
+      "fields": {
+        "first_name": "Paul",
+        "last_name": "McCartney",
+        "email_address": "pmccartney@gmail.com"
+      }
+    }
+  ]
